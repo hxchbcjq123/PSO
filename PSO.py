@@ -65,14 +65,17 @@ class PSO:
     def updatev(self, x, pi, pg):  # 更新速度
         p = self.copyparticle(x)
         for d in range(self.Dim):  # 更新d维速度
-            p.v[d] = self.w * x.v[d] + self.c1 * random.random() * (pi.v[d] - x.v[d]) + self.c2 * random.random() * (
-                    pg.v[d] - x.v[d])
+            p.v[d] = self.w * x.v[d] + self.c1 * random.random() * (pi.x[d] - x.x[d]) + self.c2 * random.random() * (
+                    pg.x[d] - x.x[d])
         return p
 
     def updatex(self, x):  # 更新位置和适应度
         p = self.copyparticle(x)
         for d in range(self.Dim):
             p.x[d] = p.x[d] + p.v[d]
+        while abs(p.x[d]) > self.Xdmax:  # 防止越界
+            p.x[d] = self.Xdmax * random.random()
+
         p.f = self.getfitness(p)
         return p
 
@@ -147,8 +150,8 @@ class PSO:
                             v1 = np.random.randn() * olist[l]
                             newparticle.x[j] = newparticle.x[j] + v1
                             mflist.append(self.getfitness(newparticle))
-                            if min(mflist)==mflist[-1]:
-                                vl=v1
+                            if min(mflist) == mflist[-1]:
+                                vl = v1
                         minf = min(mflist)
                         newparticle1 = self.copyparticle(choose[k])
                         v2 = random.random() * self.Vdmax
@@ -158,6 +161,7 @@ class PSO:
                             choose[k].v[j] = vl
                         else:
                             choose[k].v[j] = v2
+        return plist
 
 
 if __name__ == "__main__":
@@ -168,4 +172,3 @@ if __name__ == "__main__":
     b = psotest.initgdlist()
     psotest.updategdtd(b, a, p)
     psotest.escape(a, p, c)
-
