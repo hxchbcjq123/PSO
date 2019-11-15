@@ -3,7 +3,7 @@ from fitnessfunction import fitness
 from PSOplot import psoplt
 
 if __name__ == "__main__":
-    psotest = PSO(fitness.Sf7, 5, 5, 0.6, 1.4, 1.4, 5, 10, 20, 100)
+    psotest = PSO(fitness.Tablet, 5, 5, 0.6, 1.4, 1.4, 5, 10, 20, 100)
     # 初始化方法参数分别为fitfunc, Dim, M, w, c1, c2, k1, k2, Vdmax, Xdmax
     p = psotest.particlelist(20)  # 初始化一个粒子为20的种群
     gbest = []  # 记录全局最优解
@@ -12,7 +12,7 @@ if __name__ == "__main__":
     td = psotest.initTdlist(0.5)  # 初始化粒子群的速度阈值设为20
     gd = psotest.initgdlist()  # 初始化记录粒子群逃逸次数的列表
     olist = psotest.initoperator()  # 初始化算子
-    for i in range(200):  # 迭代次数
+    for i in range(400):  # 迭代次数
         for j in range(len(pi)):  # 更新粒子最好适应度
             if p[j].f < pi[j].f:
                 pi[j] = psotest.copyparticle(p[j])
